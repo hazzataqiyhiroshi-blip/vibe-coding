@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | TRO Lab Manager</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="login">
+    <form class="login-box" method="POST">
+        {% if S.logo %}
+            <img
+                src="{{ url_for('static', filename='uploads/' + S.logo) }}"
+                alt="Logo Laboratorium"
+                style="max-width:100px; max-height:100px; object-fit:contain;">
+        {% else %}
+            <div class="icon">🔬</div>
+        {% endif %}
+
+        <h2>DAFTAR AKUN</h2>
+        <p class="muted">{{ S.nama_lab }}</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ 'err' if category == 'err' else '' }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        <label for="nama">Nama Mahasiswa / Dosen</label>
+        <input
+            id="nama"
+            type="text"
+            name="nama"
+            placeholder="Masukkan nama lengkap"
+            required
+            autofocus>
+
+        <label for="nim">NIM / NIP (sebagai password)</label>
+        <input
+            id="nim"
+            type="password"
+            name="nim"
+            placeholder="Masukkan NIM atau NIP"
+            required>
+
+        <label for="nim2">Konfirmasi NIM / NIP</label>
+        <input
+            id="nim2"
+            type="password"
+            name="nim2"
+            placeholder="Ulangi NIM atau NIP"
+            required>
+
+        <label for="role">Daftar sebagai</label>
+        <select id="role" name="role" required>
+            <option value="Mahasiswa">Mahasiswa</option>
+            <option value="Dosen">Dosen</option>
+        </select>
+
+        <button type="submit">Daftar Akun</button>
+
+        <p>
+            Sudah punya akun?
+            <a href="{{ url_for('login') }}">Login di sini</a>
+        </p>
+    </form>
+</body>
+</html>

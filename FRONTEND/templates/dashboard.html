@@ -1,0 +1,18 @@
+{% extends "base.html" %}{% block content %}
+<h1>{{ S.nama_lab }}</h1><p class="muted">{{ S.deskripsi }}</p>
+{% if S.foto_lab %}<img class="hero" src="{{ url_for('static', filename='uploads/' + S.foto_lab) }}" alt="foto lab">{% endif %}
+<div class="cards">
+  <div class="card"><b>{{ stats.total }}</b>Total Alat</div>
+  <div class="card g"><b>{{ stats.tersedia }}</b>Tersedia</div>
+  <div class="card y"><b>{{ stats.dipinjam }}</b>Dipinjam</div>
+  <div class="card r"><b>{{ stats.maintenance }}</b>Maintenance</div>
+  <div class="card k"><b>{{ stats.rusak }}</b>Rusak</div>
+</div>
+<div class="two">
+  <section><h2>📅 Jadwal Hari Ini</h2>
+    {% for s in today %}<p>{{ s.mulai }} - {{ s.selesai }} · <b>{{ s.kegiatan }}</b> ({{ s.ruang }})</p>
+    {% else %}<p class="muted">Tidak ada jadwal hari ini.</p>{% endfor %}</section>
+  <section><h2>📝 Aktivitas Terbaru</h2>
+    {% for a in act %}<p>{{ a }}</p>{% else %}<p class="muted">Belum ada aktivitas.</p>{% endfor %}</section>
+</div>
+{% endblock %}

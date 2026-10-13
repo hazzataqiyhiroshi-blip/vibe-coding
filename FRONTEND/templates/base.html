@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ S.nama_lab }} | TRO Lab Manager</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    {% if S.logo %}<img src="{{ url_for('static', filename='uploads/' + S.logo) }}" alt="logo">{% else %}<span class="ico">🤖</span>{% endif %}
+    <b>TRO LAB MANAGER</b>
+  </div>
+  <nav>
+    {% for ep, label, adm in [('dashboard','🏠 Dashboard',false),('labs','🏫 Laboratorium',false),('equipment','🔧 Peralatan',false),('borrowing','📦 Peminjaman',false),('maintenance','🛠️ Maintenance',false),('schedule','📅 Jadwal',false),('settings','⚙️ Settings',true)] %}
+    {% if session.role == 'Admin' or not adm %}
+    <a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint == ep }}">{{ label }}</a>
+    {% endif %}
+    {% endfor %}
+  </nav>
+  <div class="userbox">
+    👤 <b>{{ session.user }}</b> <small>{{ session.role }}</small>
+    <a class="logout" href="{{ url_for('logout') }}" onclick="return confirm('Yakin ingin logout?')">🚪 Logout</a>
+  </div>
+</header>
+
+<main>
+  {% for c, m in get_flashed_messages(with_categories=true) %}<div class="flash {{ 'err' if c == 'err' }}">{{ m }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="footer">
+  <b>TRO Lab Manager</b> · {{ S.nama_lab }}<br>
+  © <span id="yr">2026</span> Muhammad Hazzataqiy Hiroshi. All rights reserved.
+</footer>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+</body></html>

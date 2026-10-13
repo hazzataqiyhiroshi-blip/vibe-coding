@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<h1>📦 Peminjaman Alat</h1>
+<form class="grid" method="post" action="{{ url_for('borrowing_add') }}">
+  <input name="nama" placeholder="Nama" required><input name="nim" placeholder="NIM" required>
+  <select name="equipment_id" required>{% for e in avail %}<option value="{{ e.id }}">{{ e.kode }} - {{ e.nama }}</option>{% endfor %}</select>
+  <input type="number" name="jumlah" value="1" min="1"><input type="date" name="tanggal" required>
+  <input name="keperluan" placeholder="Keperluan"><button>Ajukan</button>
+</form>
+<table><tr><th>Peminjam</th><th>Alat</th><th>Tanggal</th><th>Keperluan</th><th>Status</th><th></th></tr>
+{% for b in rows %}<tr><td>{{ b.nama }}<br><small>{{ b.nim }}</small></td><td>{{ b.alat }} ×{{ b.jumlah }}</td>
+<td>{{ b.tanggal }}</td><td>{{ b.keperluan }}</td><td><span class="badge b-{{ b.status|lower }}">{{ b.status }}</span></td>
+<td>{% if b.status in flow %}<form method="post" action="{{ url_for('borrowing_next', i=b.id) }}"><button>→ {{ flow[b.status] }}</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="6" class="muted">Belum ada peminjaman.</td></tr>{% endfor %}</table>
+{% endblock %}

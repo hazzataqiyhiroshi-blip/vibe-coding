@@ -1,0 +1,66 @@
+{% extends "base.html" %}{% block content %}
+{% set admin = session.role == 'Admin' %}
+<h1>🏫 Laboratorium</h1>
+<p class="muted">Status mengikuti jadwal lab hari ini. Admin dapat menimpanya secara manual untuk sementara waktu.</p>
+
+{% if admin %}
+<details><summary>➕ Tambah laboratorium</summary>
+<form class="grid" method="post" action="{{ url_for('lab_add') }}" enctype="multipart/form-data">
+  <input name="nama" placeholder="Nama lab (mis. Lab Robotika)" required>
+  <input name="lokasi" placeholder="Lokasi / gedung">
+  <input type="number" name="kapasitas" placeholder="Kapasitas" min="0">
+  <input name="deskripsi" placeholder="Deskripsi singkat">
+  <input type="file" name="foto" accept="image/*">
+  <button>Simpan</button>
+</form></details>
+{% endif %}
+
+<div class="labs">
+{% for d in data %}{% set l = d.lab %}
+  <div class="lab-card">
+    {% if l.foto %}<img class="lab-img" src="{{ url_for('static', filename='uploads/' + l.foto) }}" alt="{{ l.nama }}">
+    {% else %}<div class="lab-img ph">🏫</div>{% endif %}
+    <div class="lab-body">
+      <h3>{{ l.nama }}</h3>
+      <div>
+        {% if d.status == 'Sedang dipakai' %}<span class="badge b-maintenance">🔴 Sedang dipakai</span>
+        {% else %}<span class="badge b-tersedia">🟢 Kosong</span>{% endif %}
+        {% if d.manual %}
+          <span class="tag">manual · {% if d.until %}sampai {{ d.until[11:] }}{% else %}sampai diubah{% endif %}</span>
+        {% else %}
+          <span class="tag">otomatis</span>
+        {% endif %}
+      </div>
+      <p class="muted">📍 {{ l.lokasi }} · 👥 {{ l.kapasitas }} orang</p>
+      <p>{{ l.deskripsi }}</p>
+      {% if d.cur %}<p><b>Jadwal sekarang:</b> {{ d.cur.kegiatan }} ({{ d.cur.mulai }} - {{ d.cur.selesai }})</p>{% endif %}
+      {% if d.nxt %}<p><b>Berikutnya:</b> {{ d.nxt.kegiatan }} ({{ d.nxt.mulai }} - {{ d.nxt.selesai }})</p>{% endif %}
+      {% if admin %}
+      <form method="post" action="{{ url_for('lab_status', i=l.id) }}" class="statusform">
+        <select name="status">
+          <option value="Otomatis" {{ 'selected' if not d.manual }}>Otomatis (dari jadwal)</option>
+          <option value="Kosong" {{ 'selected' if d.manual == 'Kosong' }}>Kosong</option>
+          <option value="Sedang dipakai" {{ 'selected' if d.manual == 'Sedang dipakai' }}>Sedang dipakai</option>
+        </select>
+        <select name="durasi" title="Lama penimpaan manual">
+          <option value="jadwal">Sampai jadwal berubah</option>
+          <option value="1jam">1 jam</option>
+          <option value="hari">Sampai akhir hari</option>
+          <option value="tetap">Sampai diubah lagi</option>
+        </select>
+        <button>Terapkan</button>
+      </form>
+      <form method="post" action="{{ url_for('lab_update', i=l.id) }}" enctype="multipart/form-data" class="inline">
+        <input type="number" name="kapasitas" value="{{ l.kapasitas }}" style="width:80px" min="0">
+        <input name="deskripsi" value="{{ l.deskripsi }}">
+        <input type="file" name="foto" accept="image/*">
+        <button>Simpan</button>
+      </form>
+      <form method="post" action="{{ url_for('lab_delete', i=l.id) }}" onsubmit="return confirm('Hapus lab ini?')"><button class="del">Hapus</button></form>
+      {% endif %}
+    </div>
+  </div>
+{% else %}<p class="muted">Belum ada laboratorium.</p>{% endfor %}
+</div>
+{% if not admin %}<script>setTimeout(function(){ location.reload(); }, 60000);</script>{% endif %}
+{% endblock %}

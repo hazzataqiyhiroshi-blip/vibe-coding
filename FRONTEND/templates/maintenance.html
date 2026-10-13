@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}
+<h1>🛠️ Maintenance</h1>
+<form class="grid" method="post" action="{{ url_for('maintenance_add') }}">
+  <select name="equipment_id">{% for e in items %}<option value="{{ e.id }}">{{ e.kode }} - {{ e.nama }}</option>{% endfor %}</select>
+  <input type="date" name="tanggal" required><input name="masalah" placeholder="Masalah" required>
+  <input name="teknisi" placeholder="Teknisi"><button>Catat</button>
+</form>
+<table><tr><th>Alat</th><th>Tanggal</th><th>Masalah</th><th>Teknisi</th><th>Status</th><th></th></tr>
+{% for m in rows %}<tr><td>{{ m.alat }}</td><td>{{ m.tanggal }}</td><td>{{ m.masalah }}</td><td>{{ m.teknisi }}</td>
+<td><span class="badge {{ 'b-tersedia' if m.status=='Selesai' else 'b-maintenance' }}">{{ m.status }}</span></td>
+<td>{% if m.status != 'Selesai' %}<form method="post" action="{{ url_for('maintenance_done', i=m.id) }}"><button>Selesai</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="6" class="muted">Belum ada riwayat.</td></tr>{% endfor %}</table>
+{% endblock %}

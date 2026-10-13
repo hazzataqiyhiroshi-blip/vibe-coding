@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block content %}
+{% set admin = session.role == 'Admin' %}
+<h1>📅 Jadwal Laboratorium</h1>
+{% if admin %}
+<form class="grid" method="post" action="{{ url_for('schedule_add') }}">
+  <input type="date" name="tanggal" required><input type="time" name="mulai" required><input type="time" name="selesai" required>
+  <input name="kegiatan" placeholder="Kegiatan" required>
+  <select name="ruang" required>{% for l in labs %}<option>{{ l.nama }}</option>{% endfor %}</select>
+  <button>Tambah</button>
+</form>
+{% endif %}
+<table><tr><th>Tanggal</th><th>Waktu</th><th>Kegiatan</th><th>Ruang</th>{% if admin %}<th></th>{% endif %}</tr>
+{% for s in rows %}<tr><td>{{ s.tanggal }}</td><td>{{ s.mulai }} - {{ s.selesai }}</td><td><b>{{ s.kegiatan }}</b></td><td>{{ s.ruang }}</td>
+{% if admin %}<td><form method="post" action="{{ url_for('schedule_delete', i=s.id) }}"><button class="del">Hapus</button></form></td>{% endif %}</tr>
+{% else %}<tr><td colspan="{{ 5 if admin else 4 }}" class="muted">Belum ada jadwal.</td></tr>{% endfor %}</table>
+{% endblock %}

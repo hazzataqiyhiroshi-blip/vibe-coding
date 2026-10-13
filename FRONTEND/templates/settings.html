@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<h1>⚙️ Lab Settings</h1>
+<form class="stack" method="post" enctype="multipart/form-data">
+  <label>Nama Lab<input name="nama_lab" value="{{ S.nama_lab }}"></label>
+  <label>Deskripsi<textarea name="deskripsi" rows="3">{{ S.deskripsi }}</textarea></label>
+  <label>Logo {% if S.logo %}<img class="thumb" src="{{ url_for('static', filename='uploads/' + S.logo) }}">{% endif %}<input type="file" name="logo" accept="image/*"></label>
+  <label>Foto Lab {% if S.foto_lab %}<img class="thumb" src="{{ url_for('static', filename='uploads/' + S.foto_lab) }}">{% endif %}<input type="file" name="foto_lab" accept="image/*"></label>
+  <button>Simpan Perubahan</button>
+</form>{% endblock %}

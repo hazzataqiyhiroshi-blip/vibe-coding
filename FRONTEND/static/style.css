@@ -1,0 +1,109 @@
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f4f9;color:#1d2433;display:flex;flex-direction:column;min-height:100vh}
+
+/* ---------- Top bar (menu horizontal) ---------- */
+.topbar{background:#0f2742;color:#fff;display:flex;align-items:center;gap:20px;padding:0 24px;min-height:64px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #0003}
+.brand{display:flex;align-items:center;gap:8px;font-size:14px;white-space:nowrap}
+.brand img{width:36px;height:36px;object-fit:contain;border-radius:6px;background:#fff}
+.ico{font-size:28px}
+.topbar nav{display:flex;gap:4px;flex:1;overflow-x:auto}
+.topbar nav a{color:#c9d6e8;text-decoration:none;padding:10px 14px;border-radius:8px;white-space:nowrap}
+.topbar nav a:hover,.topbar nav a.on{background:#1f4a7a;color:#fff}
+.userbox{display:flex;align-items:center;gap:10px;font-size:13px;color:#c9d6e8;white-space:nowrap}
+.userbox small{background:#1f4a7a;color:#fff;padding:2px 8px;border-radius:10px}
+.userbox a.logout{background:#d93a3a;color:#fff;padding:7px 12px;border-radius:8px;text-decoration:none}
+.userbox a.logout:hover{background:#b82e2e}
+
+/* ---------- Konten & footer ---------- */
+main{flex:1;width:100%;max-width:1280px;margin:0 auto;padding:24px 32px}
+h1{margin-top:0}
+.muted{color:#7a869a}
+.footer{background:#0f2742;color:#c9d6e8;text-align:center;padding:18px 24px;font-size:13px;line-height:1.7}
+.flash{background:#dff5e6;border-left:4px solid #2e9e57;padding:10px 14px;margin-bottom:14px;border-radius:6px}
+.flash.err{background:#fde0e0;border-color:#d93a3a}
+
+/* ---------- Dashboard ---------- */
+.hero{width:100%;max-height:220px;object-fit:cover;border-radius:12px;margin:10px 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin:18px 0}
+.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 4px #0001;text-align:center;border-top:4px solid #3b7ddd}
+.card b{display:block;font-size:30px}
+.g{border-color:#2e9e57}.y{border-color:#e0a800}.r{border-color:#d93a3a}.k{border-color:#333}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+section{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 4px #0001}
+
+/* ---------- Tabel & badge ---------- */
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px #0001;margin-top:14px}
+th{background:#e6ecf5;text-align:left}
+th,td{padding:10px 12px;border-bottom:1px solid #eef1f6;vertical-align:middle}
+.thumb{width:48px;height:48px;object-fit:cover;border-radius:6px;vertical-align:middle}
+.badge{padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#e6ecf5}
+.b-tersedia,.b-disetujui,.b-dikembalikan{background:#dff5e6;color:#1d7a43}
+.b-dipinjam,.b-diajukan{background:#fff3cd;color:#8a6500}
+.b-maintenance{background:#fde0e0;color:#b02a2a}
+.b-rusak{background:#333;color:#fff}
+
+/* ---------- Form ---------- */
+input,select,textarea,button{font:inherit;padding:8px 10px;border:1px solid #c5cedb;border-radius:8px;background:#fff}
+button{background:#1f6fd1;color:#fff;border:0;cursor:pointer}
+button:hover{background:#1858a8}
+.del{background:#d93a3a}
+.bar,.grid{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.grid{background:#fff;padding:14px;border-radius:12px}
+.inline{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+.stack{display:flex;flex-direction:column;gap:14px;max-width:520px}
+.stack label{display:flex;flex-direction:column;gap:6px;font-weight:600}
+details{margin:12px 0}
+summary{cursor:pointer;font-weight:600}
+
+/* ---------- Login & Register ---------- */
+body.login{align-items:center;justify-content:center;background:#0f2742;padding:20px}
+.login-box{background:#fff;padding:32px;border-radius:14px;width:100%;max-width:360px;box-shadow:0 8px 30px #0005;display:flex;flex-direction:column;align-items:stretch;gap:12px;text-align:center}
+.login-box img{width:64px;height:64px;object-fit:contain;margin:0 auto}
+.login-box .ico{font-size:48px;line-height:1}
+.login-box h2{margin:0}
+.login-box p{margin:0 0 6px}
+.login-box input,.login-box button,.login-box select{width:100%}
+.login-box a{color:#1f6fd1;font-size:14px;text-decoration:none}
+.login-box a:hover{text-decoration:underline}
+
+/* ---------- Halaman Laboratorium ---------- */
+.labs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:16px}
+.lab-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px #0001;display:flex;flex-direction:column}
+.lab-img{width:100%;height:180px;object-fit:cover;display:block;background:#e6ecf5}
+.lab-img.ph{display:flex;align-items:center;justify-content:center;font-size:56px}
+.lab-body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.lab-body h3{margin:0}
+.lab-body p{margin:2px 0}
+.lab-body .inline{margin-top:6px}
+.statusform{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px}
+.statusform select{padding:6px 8px}
+.tag{font-size:11px;color:#7a869a;background:#eef1f6;padding:2px 8px;border-radius:10px;margin-left:6px}
+
+/* ---------- Kartu pilih laboratorium (halaman Peralatan) ---------- */
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,320px));justify-content:center;gap:22px;margin:24px 0}
+.lab-grid .lab-card{padding:0;align-items:stretch;text-align:center;color:#1d2433;text-decoration:none;cursor:pointer;border:1px solid #e1e7f0;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px #0001;transition:transform .2s,box-shadow .2s,border-color .2s}
+.lab-grid .lab-card:hover{transform:translateY(-4px);border-color:#1f6fd1;box-shadow:0 8px 20px #0000001f}
+.lab-icon{display:flex;align-items:center;justify-content:center;height:140px;font-size:56px;line-height:1;background:linear-gradient(135deg,#e6ecf5,#d3e1f5)}
+.lab-grid .lab-card h2{margin:18px 16px 4px;font-size:20px;color:#0f2742}
+.lab-grid .lab-card p{margin:0 16px;color:#7a869a}
+.lab-link{display:block;margin:16px 20px 20px;padding:9px 12px;border-radius:8px;background:#1f6fd1;color:#fff;font-weight:600;font-size:14px;text-align:center}
+.lab-grid .lab-card:hover .lab-link{background:#1858a8}
+.back-link{display:inline-block;margin-bottom:12px;color:#1f6fd1;font-weight:600;text-decoration:none}
+.back-link:hover{text-decoration:underline}
+
+/* Kalau kartunya memakai versi berfoto (.labs a.lab-card) */
+.labs a.lab-card{color:#1d2433;text-decoration:none;cursor:pointer;border:1px solid #e1e7f0;transition:transform .2s,box-shadow .2s,border-color .2s}
+.labs a.lab-card:hover{transform:translateY(-4px);border-color:#1f6fd1;box-shadow:0 8px 20px #0000001f}
+.labs a.lab-card .lab-body{align-items:center;text-align:center}
+.labs a.lab-card .lab-link{align-self:stretch;margin:auto 0 0}
+
+/* ---------- Responsif ---------- */
+@media(max-width:800px){
+  .topbar{flex-wrap:wrap;padding:10px 16px;gap:8px}
+  .topbar nav{order:3;flex-basis:100%}
+  main{padding:16px}
+  .two{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .labs,.lab-grid{grid-template-columns:1fr}
+}
