@@ -1,6 +1,6 @@
 # 🤖 TRO Lab Manager
 
-Sistem manajemen laboratorium berbasis web untuk mengelola **alat, peminjaman, maintenance, jadwal, dan status laboratorium** di lingkungan Teknologi Rekayasa Otomasi. Dibuat sebagai tugas **Vibe Coding** menggunakan Python (Flask) dan SQLite.
+Sistem manajemen laboratorium berbasis web untuk mengelola **alat, peminjaman, maintenance, jadwal, dan status laboratorium** di lingkungan Teknologi Rekayasa Otomasi. Tujuan pengembangan sebagai tugas **Vibe Coding** menggunakan Python (Flask) dan SQLite dengan kemungkinan dapat dikembangkan untuk kebutuhan Laboratorium Program Studi kedepannya
 
 🔗 **Demo:** [https://trolabmanager.vercel.app](https://trolabmanager.vercel.app)
 
@@ -35,7 +35,7 @@ Sistem manajemen laboratorium berbasis web untuk mengelola **alat, peminjaman, m
 
 | Bagian | Teknologi |
 |---|---|
-| Frontend | HTML, CSS, JavaScript (template Jinja2) |
+| Frontend | HTML, CSS, JavaScript (Jinja2) |
 | Backend | Python, Flask |
 | Database | SQLite |
 | Hosting | Vercel |
@@ -112,11 +112,6 @@ Proyek ini sudah terhubung ke Vercel dan otomatis di-deploy ulang setiap kali ad
 - **Environment variable:** `SECRET_KEY` diatur di *Settings → Environment Variables* pada dashboard Vercel.
 
 **Keterbatasan versi Vercel:** filesystem Vercel bersifat sementara, sehingga database memakai `/tmp` dan dibuat ulang dengan data contoh saat server restart. Akun `admin` selalu tersedia, tetapi data yang diinput dan akun Dosen/Mahasiswa yang didaftarkan dapat hilang, dan upload foto dinonaktifkan. Untuk penyimpanan permanen, database perlu dipindah ke layanan online seperti Neon atau Turso.
-
-## 📸 Tampilan
-
-<!-- Tambahkan screenshot di sini, contoh: -->
-<!-- ![Dashboard](docs/dashboard.png) -->
 
 ## 👤 Pembuat
 
