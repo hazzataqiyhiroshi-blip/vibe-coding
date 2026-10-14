@@ -2,13 +2,17 @@
 
 Sistem manajemen laboratorium berbasis web untuk mengelola **alat, peminjaman, maintenance, jadwal, dan status laboratorium** di lingkungan Teknologi Rekayasa Otomasi. Dibuat sebagai tugas **Vibe Coding** menggunakan Python (Flask) dan SQLite.
 
+🔗 **Demo:** [https://trolabmanager.vercel.app](https://trolabmanager.vercel.app)
+
+> Versi demo di Vercel memakai database sementara, jadi data yang diinput bisa hilang saat server restart dan upload foto dinonaktifkan. Lihat bagian [Deploy ke Vercel](#-deploy-ke-vercel).
+
 ## ✨ Fitur
 
 - 🔐 **Login & Register** dengan tiga role: Admin, Dosen, dan Mahasiswa.
 - 🏠 **Dashboard**: ringkasan jumlah alat (total, tersedia, dipinjam, maintenance, rusak), jadwal hari ini, dan aktivitas terbaru.
 - 🏫 **Laboratorium**: daftar lab lengkap dengan foto, lokasi, kapasitas, dan status **Kosong / Sedang dipakai**.
   - Status ditentukan **otomatis dari jadwal**.
-  - Admin dapat menimpanya secara **manual** dengan masa berlaku (sampai jadwal berubah, 1 jam, sampai akhir hari, atau sampai diubah lagi).
+  - Admin dapat menimpanya secara **manual** kapan saja, dan mengembalikannya ke mode otomatis.
 - 🔧 **Peralatan**: inventaris alat per laboratorium, dengan pencarian, filter status, dan foto alat.
 - 📦 **Peminjaman**: alur `Diajukan → Disetujui → Dipinjam → Dikembalikan`. Status alat berubah otomatis.
 - 🛠️ **Maintenance**: pencatatan perbaikan alat beserta riwayatnya.
@@ -34,6 +38,7 @@ Sistem manajemen laboratorium berbasis web untuk mengelola **alat, peminjaman, m
 | Frontend | HTML, CSS, JavaScript (template Jinja2) |
 | Backend | Python, Flask |
 | Database | SQLite |
+| Hosting | Vercel |
 
 ## 📂 Struktur Proyek
 
@@ -42,15 +47,18 @@ VIBE CODING/
 ├── BACKEND/
 │   └── app.py            # aplikasi Flask (route, database, hak akses)
 ├── FRONTEND/
-│   ├── templates/        # halaman HTML (base, dashboard, labs, equipment, dst.)
+│   └── templates/        # halaman HTML (base, dashboard, labs, equipment, dst.)
+├── public/
 │   └── static/
 │       ├── style.css     # tampilan
-│       └── uploads/      # foto lab dan alat (dibuat otomatis)
+│       └── uploads/      # foto lab dan alat (dibuat otomatis, tidak diunggah ke Git)
+├── .gitignore
+├── pyproject.toml        # penunjuk entrypoint Flask untuk Vercel
 ├── requirements.txt
 └── README.md
 ```
 
-## 🚀 Cara Menjalankan
+## 🚀 Cara Menjalankan (Lokal)
 
 1. **Pastikan Python 3.10+ sudah terpasang**, lalu clone repo ini:
 ```bash
@@ -69,15 +77,15 @@ VIBE CODING/
 
 Database `lab_manager.db` dibuat **otomatis** saat aplikasi pertama kali dijalankan, lengkap dengan data contoh (3 laboratorium, 4 alat, dan 1 jadwal).
 
-## 🔑 Akun Bawaan
+## 🔑 Akun
 
 | Username | Password | Role |
 |---|---|---|
 | `admin` | `admin123` | Admin |
 
-> ⚠️ Akun ini hanya untuk demo. Ganti password dan `secret_key` di `BACKEND/app.py` sebelum dipakai sungguhan.
+Akun **Dosen** dan **Mahasiswa** dibuat lewat halaman **Register** dengan mengisi **Nama** dan **NIM/NIP**. Saat login, gunakan **Nama** sebagai username dan **NIM/NIP** sebagai password.
 
-Akun Dosen dan Mahasiswa dibuat lewat halaman **Register**.
+> ⚠️ Akun admin hanya untuk demo. Untuk pemakaian sungguhan, ganti password admin dan atur `SECRET_KEY` lewat environment variable.
 
 ## 🗄️ Database
 
@@ -93,7 +101,17 @@ Semua data disimpan di SQLite (`BACKEND/lab_manager.db`) dengan tabel berikut:
 | `schedules` | jadwal penggunaan lab |
 | `settings` | nama lab, logo, dan foto lab |
 
-File foto disimpan di folder `FRONTEND/static/uploads`, sedangkan database hanya mencatat nama filenya.
+File foto disimpan di folder `public/static/uploads`, sedangkan database hanya mencatat nama filenya. File `lab_manager.db` dan foto upload tidak ikut diunggah ke GitHub (diatur di `.gitignore`).
+
+## ☁️ Deploy ke Vercel
+
+Proyek ini sudah terhubung ke Vercel dan otomatis di-deploy ulang setiap kali ada `git push` ke branch `main`.
+
+- **Entrypoint:** `pyproject.toml` menunjuk ke `BACKEND.app:app`.
+- **File statis:** CSS dan gambar berada di `public/static`, karena Vercel mengabaikan folder static bawaan Flask.
+- **Environment variable:** `SECRET_KEY` diatur di *Settings → Environment Variables* pada dashboard Vercel.
+
+**Keterbatasan versi Vercel:** filesystem Vercel bersifat sementara, sehingga database memakai `/tmp` dan dibuat ulang dengan data contoh saat server restart. Akun `admin` selalu tersedia, tetapi data yang diinput dan akun Dosen/Mahasiswa yang didaftarkan dapat hilang, dan upload foto dinonaktifkan. Untuk penyimpanan permanen, database perlu dipindah ke layanan online seperti Neon atau Turso.
 
 ## 📸 Tampilan
 
@@ -104,7 +122,7 @@ File foto disimpan di folder `FRONTEND/static/uploads`, sedangkan database hanya
 
 - **Nama:** Muhammad Hazzataqiy Hiroshi
 - **NIM:** 40040326630034
-- **Mata kuliah:** Algoritma dan Pemrograman (Vibe Coding)
+- **Mata kuliah:** Praktikum Algoritma dan Pemrograman
 - **Program Studi:** Teknologi Rekayasa Otomasi 2026
 - **Fakultas:** Sekolah Vokasi
 - **Universitas:** Universitas Diponegoro
