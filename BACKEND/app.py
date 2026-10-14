@@ -4,16 +4,23 @@ from flask import Flask, render_template, request, redirect, url_for, g, flash, 
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 
+IS_VERCEL = bool(os.environ.get("VERCEL"))
 BASE = os.path.dirname(os.path.abspath(__file__))
-FRONT = os.path.join(BASE, "..", "FRONTEND")
-UPLOAD = os.path.join(FRONT, "static", "uploads")
-DB = os.path.join(BASE, "lab_manager.db")
-os.makedirs(UPLOAD, exist_ok=True)
+ROOT = os.path.abspath(os.path.join(BASE, ".."))
+PUBLIC = os.path.join(ROOT, "public")
+
+if IS_VERCEL:
+    DB = "/tmp/lab_manager.db"
+    UPLOAD = "/tmp/uploads"
+else:
+    DB = os.path.join(BASE, "lab_manager.db")
+    UPLOAD = os.path.join(PUBLIC, "static", "uploads")
+    os.makedirs(UPLOAD, exist_ok=True)
 
 app = Flask(__name__,
-            template_folder=os.path.join(FRONT, "templates"),
-            static_folder=os.path.join(FRONT, "static"))
-app.secret_key = "tro-lab-manager"
+            template_folder=os.path.join(ROOT, "FRONTEND", "templates"),
+            static_folder=os.path.join(PUBLIC, "static"))
+app.secret_key = os.environ.get("SECRET_KEY", "tro-lab-manager")
 
 # Aksi yang hanya boleh dilakukan Admin
 # (halaman maintenance, jadwal, dan laboratorium boleh DILIHAT semua role)
@@ -107,6 +114,8 @@ def init_db():
     con.commit(); con.close()
 
 def save_file(f):
+    if IS_VERCEL:
+        return None
     if f and f.filename:
         name = f"{int(time.time())}_{secure_filename(f.filename)}"
         f.save(os.path.join(UPLOAD, name))
@@ -383,6 +392,7 @@ def settings():
         flash("Pengaturan disimpan."); return redirect(url_for("settings"))
     return render_template("settings.html")
 
+init_db()
+
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
