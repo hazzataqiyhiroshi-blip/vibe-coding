@@ -9,16 +9,21 @@
     {% if S.logo %}<img src="{{ url_for('static', filename='uploads/' + S.logo) }}" alt="logo">{% else %}<span class="ico">🤖</span>{% endif %}
     <b>TRO LAB MANAGER</b>
   </div>
-  <nav>
-    {% for ep, label, adm in [('dashboard','🏠 Dashboard',false),('labs','🏫 Laboratorium',false),('equipment','🔧 Peralatan',false),('borrowing','📦 Peminjaman',false),('maintenance','🛠️ Maintenance',false),('schedule','📅 Jadwal',false),('settings','⚙️ Settings',true)] %}
-    {% if session.role == 'Admin' or not adm %}
-    <a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint == ep }}">{{ label }}</a>
-    {% endif %}
-    {% endfor %}
-  </nav>
-  <div class="userbox">
-    👤 <b>{{ session.user }}</b> <small>{{ session.role }}</small>
-    <a class="logout" href="{{ url_for('logout') }}" onclick="return confirm('Yakin ingin logout?')">🚪 Logout</a>
+
+  <button class="hamburger" id="menuBtn" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="menu">☰</button>
+
+  <div class="menu" id="menu">
+    <nav>
+      {% for ep, label, adm in [('dashboard','🏠 Dashboard',false),('labs','🏫 Laboratorium',false),('equipment','🔧 Peralatan',false),('borrowing','📦 Peminjaman',false),('maintenance','🛠️ Maintenance',false),('schedule','📅 Jadwal',false),('settings','⚙️ Settings',true)] %}
+      {% if session.role == 'Admin' or not adm %}
+      <a href="{{ url_for(ep) }}" class="{{ 'on' if request.endpoint == ep }}">{{ label }}</a>
+      {% endif %}
+      {% endfor %}
+    </nav>
+    <div class="userbox">
+      <span>👤 <b>{{ session.user }}</b> <small>{{ session.role }}</small></span>
+      <a class="logout" href="{{ url_for('logout') }}" onclick="return confirm('Yakin ingin logout?')">🚪 Logout</a>
+    </div>
   </div>
 </header>
 
@@ -29,8 +34,26 @@
 
 <footer class="footer">
   <b>TRO Lab Manager</b> · {{ S.nama_lab }}<br>
-  © <span id="yr">2026</span> Muhammad Hazzataqiy Hiroshi. All rights reserved.
+  © <span id="yr">2026</span> Teknologi Rekayasa Otomasi. All rights reserved.
 </footer>
-<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Menu hamburger (layar kecil)
+  (function () {
+    var btn = document.getElementById('menuBtn');
+    var menu = document.getElementById('menu');
+    function setOpen(open) {
+      menu.classList.toggle('open', open);
+      btn.textContent = open ? '✕' : '☰';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    }
+    btn.addEventListener('click', function () { setOpen(!menu.classList.contains('open')); });
+    // Tutup menu saat layar dilebarkan kembali
+    window.addEventListener('resize', function () { if (window.innerWidth > 800) setOpen(false); });
+  })();
+</script>
 
 </body></html>

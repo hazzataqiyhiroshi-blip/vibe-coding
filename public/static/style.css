@@ -6,6 +6,7 @@ body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f4f9;color:#1d
 .brand{display:flex;align-items:center;gap:8px;font-size:14px;white-space:nowrap}
 .brand img{width:36px;height:36px;object-fit:contain;border-radius:6px;background:#fff}
 .ico{font-size:28px}
+.menu{display:flex;align-items:center;gap:20px;flex:1;min-width:0}
 .topbar nav{display:flex;gap:4px;flex:1;overflow-x:auto}
 .topbar nav a{color:#c9d6e8;text-decoration:none;padding:10px 14px;border-radius:8px;white-space:nowrap}
 .topbar nav a:hover,.topbar nav a.on{background:#1f4a7a;color:#fff}
@@ -13,6 +14,8 @@ body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#f1f4f9;color:#1d
 .userbox small{background:#1f4a7a;color:#fff;padding:2px 8px;border-radius:10px}
 .userbox a.logout{background:#d93a3a;color:#fff;padding:7px 12px;border-radius:8px;text-decoration:none}
 .userbox a.logout:hover{background:#b82e2e}
+.hamburger{display:none;margin-left:auto;background:transparent;border:0;color:#fff;font-size:28px;line-height:1;padding:6px 12px;border-radius:8px;cursor:pointer}
+.hamburger:hover{background:#1f4a7a}
 
 /* ---------- Konten & footer ---------- */
 main{flex:1;width:100%;max-width:1280px;margin:0 auto;padding:24px 32px}
@@ -100,7 +103,12 @@ body.login{align-items:center;justify-content:center;background:#0f2742;padding:
 /* ---------- Responsif ---------- */
 @media(max-width:800px){
   .topbar{flex-wrap:wrap;padding:10px 16px;gap:8px}
-  .topbar nav{order:3;flex-basis:100%}
+  .hamburger{display:block}
+  .menu{display:none;flex-direction:column;align-items:stretch;flex:none;flex-basis:100%;order:3;gap:10px;padding-top:8px;border-top:1px solid #ffffff22;max-height:calc(100vh - 80px);overflow-y:auto}
+  .menu.open{display:flex}
+  .topbar nav{flex-direction:column;flex:none;overflow:visible}
+  .topbar nav a{padding:12px 14px}
+  .userbox{justify-content:space-between;padding-top:10px;border-top:1px solid #ffffff22}
   main{padding:16px}
   .two{grid-template-columns:1fr}
 }
